@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollBar;
 
 public class ControlFrame extends JFrame {
@@ -91,6 +93,16 @@ public class ControlFrame extends JFrame {
                 /*
 				 * COMPLETAR
                  */
+                synchronized(immortals){                    
+                    try {
+                        for (Immortal im : immortals) {
+                            System.out.println("uno");
+                            im.pause();
+                            System.out.println("dos");
+                        }
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ControlFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 int sum = 0;
                 for (Immortal im : immortals) {
                     sum += im.getHealth();
@@ -98,8 +110,8 @@ public class ControlFrame extends JFrame {
 
                 statisticsLabel.setText("<html>"+immortals.toString()+"<br>Health sum:"+ sum);
                 
+                }
                 
-
             }
         });
         toolBar.add(btnPauseAndCheck);
@@ -108,10 +120,9 @@ public class ControlFrame extends JFrame {
 
         btnResume.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                /**
-                 * IMPLEMENTAR
-                 */
-
+                synchronized(immortals){
+                    immortals.notify();
+                }
             }
         });
 

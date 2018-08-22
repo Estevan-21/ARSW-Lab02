@@ -80,5 +80,12 @@ public class Immortal extends Thread {
 
         return name + "[" + health + "]";
     }
+    
+    public void pause() throws InterruptedException{
+        synchronized(immortalsPopulation){
+            immortalsPopulation.wait();
+        }
+        
+    }
 
 }
