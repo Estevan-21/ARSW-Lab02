@@ -82,8 +82,14 @@ public class Immortal extends Thread {
     }
     
     public void pause() throws InterruptedException{
-        synchronized(immortalsPopulation){
-            immortalsPopulation.wait();
+        synchronized(this){
+            this.suspend();
+        }
+    }
+        
+     public void resumes(){
+        synchronized(this){
+            this.resume();
         }
         
     }
